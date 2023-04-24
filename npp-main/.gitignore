@@ -1,0 +1,8 @@
+Pipfile
+__pycache__
+*.pyc
+Pipfile*
+storage/*
+.vscode
+.idea
+venv/

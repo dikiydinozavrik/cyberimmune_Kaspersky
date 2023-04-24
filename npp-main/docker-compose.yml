@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  sensor:
+    image: sensor
+    build:
+      context: .
+      dockerfile: ./Dockerfile.sensor
+
+  scada:
+    image: scada
+    build:
+      context: .
+      dockerfile: ./Dockerfile.scada
+    ports:
+      - "6069:6069"   
+
+  device:
+    image: device
+    build:
+      context: .
+      dockerfile: ./Dockerfile.device
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+    volumes:
+      - ./storage/:/storage
+    ports:
+      - "6064:6064"
+
+  protection:
+    image: protection
+    build:
+      context: .
+      dockerfile: ./Dockerfile.protection_system
+    ports:
+      - "6068:6068"
+
+  file_server:
+    image: file_server
+    build:
+      context: .
+      dockerfile: ./Dockerfile.file_server    
+    volumes:
+      - ./file_server/data/:/file_server/data
+    ports:
+      - "6001:6001"
